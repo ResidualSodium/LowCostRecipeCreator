@@ -1,20 +1,25 @@
 """Current density is a placeholder for updates later. Will need to alter how that is parsed and what the weights are based on density. 
     This is used to get the weigh in ouces, so that we can get the lowest quantity / amount needed to satisfy the ingredient in thte list."""
 
+import re
+import pandas as pd
+
 class ParseIngredients:
-    # Example density database (in oz per cup)
-    density_db = {
-        'dried shiitake mushrooms': 0.5,  # Example density
-        'white miso paste': 9.0,          # Example density
-        'soy sauce': 8.5,                 # Example density
-        'rice vinegar': 8.0,              # Example density
-        'garlic': 5.0,                    # Example density
-        'ginger paste': 8.0,              # Example density
-        'instant ramen noodles': 3.5      # Example density per package
-    }
+    def __init__(self, density_file):
+        # Load density data from CSV file
+        self.density_db = self.load_density_data(density_file)
+    
+    def load_density_data(self, density_file):
+        # Read the CSV file into a DataFrame
+        df = pd.read_csv(density_file)
+        
+        # Convert the DataFrame to a dictionary
+        density_dict = pd.Series(df.density.values, index=df.ingredient).to_dict()
+        
+        return density_dict
     
     def ingredient_parse(self, ingredient_list):
-        pattern = r'(?P<amount>[\d/\.]+)\s*(?P<measurement>\b(?:cups?|tablespoons?|tbsp?|teaspoons?|tsp?|cloves?|packages?)\b)?\s*(?P<ingredient>.+)'
+        pattern = r'(?P<amount>[\d/\.]+)\s*(?P<measurement>\b(?:cups?|tablespoons?|teaspoons?|cloves?|packages?)\b)?\s*(?P<ingredient>.+)'
         
         dict_ingredients = []
         
@@ -47,8 +52,8 @@ class ParseIngredients:
         # Conversion factors
         conversion_factors = {
             'cup': 1,
-            'tablespoon' or 'tbsp': 1/16,
-            'teaspoon' or 'tsp': 1/48,
+            'tablespoon': 1/16,
+            'teaspoon': 1/48,
             'clove': 1/6,  # Example conversion for garlic
             'package': 3.5  # Example conversion for ramen noodles
         }
@@ -68,18 +73,12 @@ class ParseIngredients:
         return weight_oz
 
 def main():
-    ingredient_list = [
-        '2 cups dried shiitake mushrooms',
-        '1 tablespoon white miso paste',
-        '1 tbsp white miso paste',
-        '2 teaspoons soy sauce',
-        '2 teaspoons rice vinegar',
-        '1 clove garlic',
-        '1/2 teaspoon ginger paste',
-        '2(3.5-ounce) packages instant ramen noodles, seasoning packets discarded'
-    ]
+    ingredient_list = ingredients_list #double check this is the correct var.
     
-    parser = ParseIngredients()
+    # Path to the CSV file containing density data
+    density_file = 'ingredient_densities.csv'
+    
+    parser = ParseIngredients(density_file)
     dict_ingredients = parser.ingredient_parse(ingredient_list)
     
     # Print the result
