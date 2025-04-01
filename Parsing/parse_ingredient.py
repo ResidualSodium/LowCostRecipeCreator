@@ -73,7 +73,7 @@ class ParseIngredients:
         return weight_oz
 
 def main():
-    ingredient_list = ingredients_list #double check this is the correct var.
+    ingredient_list = parsed_ingredients #double check this is the correct var being passed by the scraping parser.
     
     # Path to the CSV file containing density data
     density_file = 'ingredient_densities.csv'
