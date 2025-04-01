@@ -1,3 +1,6 @@
+"""Current density is a placeholder for updates later. Will need to alter how that is parsed and what the weights are based on density. 
+    This is used to get the weigh in ouces, so that we can get the lowest quantity / amount needed to satisfy the ingredient in thte list."""
+
 class ParseIngredients:
     # Example density database (in oz per cup)
     density_db = {
