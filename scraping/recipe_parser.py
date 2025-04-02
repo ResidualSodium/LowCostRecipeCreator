@@ -8,7 +8,7 @@ def parse_recipe(selected_ingredients, servings):
     for ingredient in selected_ingredients:
         print(f"Processing ingredient: {ingredient}")  # Debugging line
         # Updated regular expression to handle different ingredient formats
-        match = r'(?P<amount>[\d/\.]+)\s*(?P<measurement>\b(?:cups?|tablespoons?|teaspoons?|cloves?|packages?)\b)?\s*(?P<ingredient>.+)'
+        match = re.match(r'(?P<amount>[\d/\.]+)\s*(?P<measurement>\b(?:cups?|tablespoons?|teaspoons?|cloves?|packages?)\b)?\s*(?P<ingredient>.+)')
         # match = re.match(r"(\d+(\.\d+)?)\s*(\w+)?\s*(.*)", ingredient.strip())
 
         if match:
