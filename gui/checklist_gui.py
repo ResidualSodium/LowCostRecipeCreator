@@ -63,7 +63,7 @@ class ChecklistGUI(QDialog):  # Assuming QDialog is being used
         print(f"Unselected Ingredients: {unselected_ingredients}, Servings: {servings}")  # Debugging line
 
         # Pass the unselected ingredients and servings to the recipe parser
-        from Parsing import parse_ingredient  # Import parse_recipe from the parser
+        from scraping.recipe_parser import parse_recipe  # Import parse_recipe from the parser
         adjusted_ingredients = parse_ingredient(unselected_ingredients, servings)  # Receive the adjusted ingredients
 
         # Debugging the parsed results
